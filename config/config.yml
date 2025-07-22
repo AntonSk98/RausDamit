@@ -1,0 +1,52 @@
+timezone: Europe/Berlin
+calendar: ${CALENDAR}
+email:
+  from: ${SENDER}
+  recipients: ${RECIPIENTS}
+  password: ${EMAIL_PASSWORD}
+  smtpHost: mail.gmx.net
+  smtpPort: "587"
+  templates:
+    daily_rubbish_reminder:
+      subject: "Morg'n is wieda Müll - rausstella ned vagess'n!"
+      templateContent: |
+        Griaß di,
+
+        morg'n is wieda so weit: Da Muawaga rollt durch d'Gassn!
+
+        {events}
+
+        Drum: Stell dei Tonn bittschön heit no raus - ned dass da Krempl liegnbleibt.
+
+        Scheen'n Dank und a guad's Nächtle!
+
+        Pfiat di  
+        Dei RausDamit-Team
+
+    weekly_rubbish_reminder:
+      subject: "Dei Müllplan für d'Woch - damits koa Sauerei gibt!"
+      templateContent: |
+        Servus,
+
+        do is da Müllfahrplan für de nächste Woch - damit koana mit'm Krempl daheim sitz'n bleibt:
+
+        {events}
+
+        Schau einfach, wos o'dra is und stell die richtign Tonn raus - dann basst des!
+
+        Pfiat di  
+        Dei RausDamit-Team
+
+    replace_calendar_reminder:
+      subject: "Zeit, den Müllkalender auszutauschen"
+      templateContent: |
+        Servus,
+
+        dein aktueller Müllkalender is bald nimma g'gültig.
+
+        Hol da bitte bald an neien Kalender fürs nächste Jahr, damit'd immer weißt, wann's wieder soweit is.
+
+        Merci, dass du mit'm Kalender am Ball bleibst!
+
+        Pfiat di  
+        Dei RausDamit-Team
