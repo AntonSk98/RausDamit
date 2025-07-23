@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"raus-damit/config"
 	"raus-damit/repository"
@@ -19,6 +19,11 @@ func main() {
 	rubbishEventService := service.NewRubbishEventService(notificationService, rubbishEventRepository, configuration)
 
 	cronScheduler := cron.New(cron.WithSeconds())
+
+	// Every minute
+	cronScheduler.AddFunc("* * * * * *", func() {
+		retriable("DailyMorningNotifier", func() error { return rubbishEventService.NotifyDailyRubbishCollection() })
+	})
 
 	// Every day at 1:00 PM
 	cronScheduler.AddFunc("0 0 13 * * *", func() {
@@ -54,7 +59,7 @@ func retriable(taskId string, task func() error) error {
 		retry.Attempts(20),
 		retry.Delay(5*time.Minute),
 		retry.OnRetry(func(n uint, err error) {
-			fmt.Printf("Retry #%d of '%v()' due to error: %v\n", n+1, taskId, err)
+			log.Printf("Retry #%d of '%s()' due to error: %v", n+1, taskId, err)
 		}),
 	)
 }

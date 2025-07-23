@@ -1,7 +1,7 @@
 package service
 
 import (
-	"fmt"
+	"log"
 	"raus-damit/config"
 	"raus-damit/repository"
 )
@@ -21,16 +21,20 @@ func NewRubbishEventService(notificationService *NotificationService,
 
 func (service *RubbishEventService) NotifyDailyRubbishCollection() error {
 	now := DateNow(service.config.Timezone)
+	log.Println(now)
 	tomorrow := PlusDays(now, 1)
+	log.Println(tomorrow)
 	events := service.rubbishEventRepository.Find(now, tomorrow)
+	log.Println(events)
 
 	if len(events) == 0 {
-		fmt.Println("📭 No rubbish collection scheduled for tomorrow.")
+		log.Println("📭 No rubbish collection scheduled for tomorrow.")
 		return nil
 	}
 
 	notification := NewRubbishCollectionNotification(DAILY_RUBBISH_REMINDER, events)
-	return service.notificationService.Notify(notification)
+	log.Println(notification)
+	return nil
 }
 
 func (service *RubbishEventService) NotifyWeeklyRubbishCollection() error {
@@ -39,7 +43,7 @@ func (service *RubbishEventService) NotifyWeeklyRubbishCollection() error {
 	events := service.rubbishEventRepository.Find(now, nextWeek)
 
 	if len(events) == 0 {
-		fmt.Println("📭 No rubbish collection scheduled in the next 7 days.")
+		log.Println("📭 No rubbish collection scheduled in the next 7 days.")
 		return nil
 	}
 

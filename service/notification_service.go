@@ -3,6 +3,7 @@ package service
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"net/smtp"
 	"raus-damit/config"
 	"strings"
@@ -52,7 +53,7 @@ func (notifier *NotificationService) sendEmail(emailBody []byte) error {
 		return fmt.Errorf("failed to send email: %w", err)
 	}
 
-	fmt.Println("✅ Notification has been successfully sent.")
+	log.Println("✅ Notification has been successfully sent.")
 	return nil
 }
 
