@@ -18,15 +18,13 @@ func main() {
 	notificationService := service.NewNotificationService(configuration)
 	rubbishEventService := service.NewRubbishEventService(notificationService, rubbishEventRepository, configuration)
 
-	cronScheduler := cron.New(cron.WithSeconds())
+	cronScheduler := cron.New(
+		cron.WithSeconds(),
+		cron.WithLocation(service.Location(configuration.Timezone)),
+	)
 
-	// Every minute
-	cronScheduler.AddFunc("* * * * * *", func() {
-		retriable("DailyMorningNotifier", func() error { return rubbishEventService.NotifyDailyRubbishCollection() })
-	})
-
-	// Every day at 1:00 PM
-	cronScheduler.AddFunc("0 0 13 * * *", func() {
+	// Every day at 9:00 AM
+	cronScheduler.AddFunc("0 0 9 * * *", func() {
 		retriable("DailyMorningNotifier", func() error { return rubbishEventService.NotifyDailyRubbishCollection() })
 	})
 

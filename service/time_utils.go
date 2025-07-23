@@ -5,16 +5,17 @@ import (
 	"time"
 )
 
-func DateNow(timezone string) time.Time {
-	location, err := time.LoadLocation(timezone)
-
+func Location(timezone string) *time.Location {
+	loc, err := time.LoadLocation("Europe/Berlin")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Failed to load location: %v", err)
 	}
 
-	now := time.Now().In(location)
+	return loc
+}
 
-	return now
+func DateNow(timezone string) time.Time {
+	return time.Now().In(Location(timezone))
 }
 
 func PlusDays(t time.Time, days int) time.Time {

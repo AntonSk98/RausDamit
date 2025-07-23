@@ -67,9 +67,9 @@ func (notifier *NotificationService) buildEmail(template config.Template, templa
 	fromAddress := notifier.Config.Email.From
 	toAddresses := strings.Join(notifier.Config.Email.Recepients, ",")
 
-	msg.WriteString(fmt.Sprintf("From: Raus Damit <%s>\r\n", fromAddress))
-	msg.WriteString(fmt.Sprintf("To: %s\r\n", toAddresses))
-	msg.WriteString(fmt.Sprintf("Subject: %s\r\n", subject))
+	msg.WriteString("From: Raus Damit <" + fromAddress + ">\r\n")
+	msg.WriteString("To: " + toAddresses + "\r\n")
+	msg.WriteString("Subject: " + subject + "\r\n")
 	msg.WriteString("MIME-Version: 1.0\r\n")
 	msg.WriteString("Content-Type: text/plain; charset=\"utf-8\"\r\n")
 	msg.WriteString("Content-Transfer-Encoding: 7bit\r\n")

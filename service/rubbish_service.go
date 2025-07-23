@@ -21,11 +21,8 @@ func NewRubbishEventService(notificationService *NotificationService,
 
 func (service *RubbishEventService) NotifyDailyRubbishCollection() error {
 	now := DateNow(service.config.Timezone)
-	log.Println(now)
 	tomorrow := PlusDays(now, 1)
-	log.Println(tomorrow)
 	events := service.rubbishEventRepository.Find(now, tomorrow)
-	log.Println(events)
 
 	if len(events) == 0 {
 		log.Println("📭 No rubbish collection scheduled for tomorrow.")
@@ -33,8 +30,7 @@ func (service *RubbishEventService) NotifyDailyRubbishCollection() error {
 	}
 
 	notification := NewRubbishCollectionNotification(DAILY_RUBBISH_REMINDER, events)
-	log.Println(notification)
-	return nil
+	return service.notificationService.Notify(notification)
 }
 
 func (service *RubbishEventService) NotifyWeeklyRubbishCollection() error {
